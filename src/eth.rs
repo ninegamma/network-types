@@ -30,6 +30,16 @@ impl Error for EthernetError {}
 /// This structure represents the standard IEEE 802.3 Ethernet header format.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct EthHdr {
@@ -39,7 +49,7 @@ pub struct EthHdr {
     pub src_addr: [u8; 6],
     /// Protocol which is encapsulated in the payload of the frame.
     /// Indicates what type of data follows the Ethernet header (e.g., IPv4, IPv6, ARP)
-    pub ether_type: u16,
+    pub ether_type: [u8; 2],
 }
 
 impl EthHdr {
@@ -52,7 +62,8 @@ impl EthHdr {
     /// - `Ok(EtherType)` if a known protocol type
     /// - `Err(u16)` if an unknown protocol type (returns the raw value)
     pub fn ether_type(&self) -> Result<EtherType, EthernetError> {
-        EtherType::from_u16(self.ether_type).ok_or(EthernetError::InvalidEtherType(self.ether_type))
+        let ether_type = u16::from_ne_bytes(self.ether_type);
+        EtherType::from_u16(ether_type).ok_or(EthernetError::InvalidEtherType(ether_type))
     }
 
     /// Creates a new Ethernet header with the specified addresses and protocol type
@@ -68,7 +79,7 @@ impl EthHdr {
         EthHdr {
             dst_addr,
             src_addr,
-            ether_type: eth_type.into(),
+            ether_type: u16::from(eth_type).to_ne_bytes(),
         }
     }
 }
@@ -127,8 +138,8 @@ mod tests {
         assert_eq!(eth_hdr.dst_addr, TEST_DST_MAC);
         assert_eq!(eth_hdr.src_addr, TEST_SRC_MAC);
         let ether_type_value = eth_hdr.ether_type;
-        assert_eq!(ether_type_value, EtherType::Ipv4 as u16);
-        assert_eq!(ether_type_value, 0x0800_u16.to_be());
+        assert_eq!(ether_type_value, (EtherType::Ipv4 as u16).to_ne_bytes());
+        assert_eq!(ether_type_value, 0x0800_u16.to_be().to_ne_bytes());
     }
 
     #[test]
@@ -136,7 +147,7 @@ mod tests {
         let eth_hdr = EthHdr {
             dst_addr: TEST_DST_MAC,
             src_addr: TEST_SRC_MAC,
-            ether_type: EtherType::Ipv6 as u16,
+            ether_type: (EtherType::Ipv6 as u16).to_ne_bytes(),
         };
         assert_eq!(eth_hdr.ether_type().unwrap(), EtherType::Ipv6);
     }
@@ -147,7 +158,7 @@ mod tests {
         let eth_hdr = EthHdr {
             dst_addr: TEST_DST_MAC,
             src_addr: TEST_SRC_MAC,
-            ether_type: unknown_type_val.to_be(),
+            ether_type: unknown_type_val.to_be().to_ne_bytes(),
         };
         assert_matches!(eth_hdr.ether_type(), Err(EthernetError::InvalidEtherType(val)) if val == unknown_type_val.to_be());
     }

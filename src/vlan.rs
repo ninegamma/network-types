@@ -9,13 +9,23 @@ use num_traits::FromPrimitive as _;
 /// VLAN tag header structure
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct VlanHdr {
     /// First 2 bytes containing PCP (3 bits), DEI (1 bit), and VLAN ID (12 bits)
     pub tci: [u8; 2],
     /// EtherType field indicating the protocol encapsulated in the payload
-    pub ether_type: u16,
+    pub ether_type: [u8; 2],
 }
 
 impl VlanHdr {
@@ -48,6 +58,7 @@ impl VlanHdr {
     /// Get the EtherType value
     #[inline]
     pub fn ether_type(&self) -> Result<EtherType, EthernetError> {
-        EtherType::from_u16(self.ether_type).ok_or(EthernetError::InvalidEtherType(self.ether_type))
+        let ether_type = u16::from_ne_bytes(self.ether_type);
+        EtherType::from_u16(ether_type).ok_or(EthernetError::InvalidEtherType(ether_type))
     }
 }

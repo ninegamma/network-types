@@ -2,6 +2,16 @@ use crate::bitfield::BitfieldU16;
 
 #[repr(C)]
 #[derive(Debug, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct MacHdr {

@@ -48,6 +48,16 @@ pub enum IcmpError {
 /// redirect gateway addresses, or pointers to errors in received packets.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv4Hdr {
@@ -390,6 +400,16 @@ impl Icmpv4Hdr {
 /// - 38: Domain Name Reply (deprecated)
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpIdSequence {
@@ -433,6 +453,16 @@ impl IcmpIdSequence {
 /// The four bytes encode the gateway internet address in network byte order.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv4Redirect {
@@ -456,6 +486,16 @@ impl Icmpv4Redirect {
 /// of the next-hop network on which fragmentation is required.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpDstUnreachable {
@@ -486,6 +526,16 @@ impl IcmpDstUnreachable {
 /// and 3 bytes of unused padding to make the field a total of 4 bytes.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv4ParamProblem {
@@ -511,6 +561,16 @@ impl Icmpv4ParamProblem {
 /// field indicating where in the message the error was detected.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpHdrPhoturis {
@@ -545,6 +605,16 @@ impl IcmpHdrPhoturis {
 /// followed by 2 unused bytes to make a total of 4 bytes.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpTraceroute {
@@ -616,6 +686,16 @@ impl IcmpTraceroute {
 /// ```
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpTimestampMsgPart {
@@ -708,6 +788,16 @@ impl IcmpTimestampMsgPart {
 /// ```
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpTracerouteMsgPart {
@@ -798,6 +888,16 @@ impl IcmpTracerouteMsgPart {
 /// MTU values, or pointers to errors in received packets.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv6Hdr {
@@ -995,6 +1095,16 @@ impl Icmpv6Hdr {
 /// Represents the Packet Too Big message.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct IcmpPacketTooBig {
@@ -1020,6 +1130,16 @@ impl IcmpPacketTooBig {
 /// [parameter-problem-v6]: https://datatracker.ietf.org/doc/html/rfc4443#section-3.4
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv6ParamProblem {
@@ -1045,6 +1165,16 @@ impl Icmpv6ParamProblem {
 /// [redirect-v6]: https://datatracker.ietf.org/doc/html/rfc4861#section-4.5
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 #[cfg_attr(feature = "wincode", derive(wincode::SchemaRead, wincode::SchemaWrite))]
 #[cfg_attr(feature = "wincode", wincode(assert_zero_copy))]
 pub struct Icmpv6Redirect {

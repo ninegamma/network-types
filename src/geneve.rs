@@ -5,6 +5,16 @@ use crate::{getter_be, setter_be};
 ///
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Default)]
+#[cfg_attr(
+    feature = "zerocopy",
+    derive(
+        zerocopy::FromBytes,
+        zerocopy::IntoBytes,
+        zerocopy::Unaligned,
+        zerocopy::Immutable,
+        zerocopy::KnownLayout
+    )
+)]
 pub struct GeneveHdr {
     /// Combined field: Version (2 bits) and Option Length (6 bits).
     pub ver_opt_len: u8,
